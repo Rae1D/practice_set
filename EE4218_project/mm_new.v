@@ -110,7 +110,7 @@ module mm_new
 				end else begin
 					state <= IDLE;
 					Done <= 1;
-					// RES_write_en <= 0;
+					RES_write_en <= 0;
 				end
 			end
 

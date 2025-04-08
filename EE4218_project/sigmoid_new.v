@@ -466,11 +466,11 @@ module Sigmoid #(
                     state <= WRITE_FIXED;
                 end else begin
                     state <= DONE;
+                    End_Sigmoid <= 1;
                 end
             end
 
-            DONE: begin
-                End_Sigmoid <= 1;
+            DONE: begin // to make sure when back to IDLE, Start_Sigmoid=0              
                 state <= IDLE;
             end
 
