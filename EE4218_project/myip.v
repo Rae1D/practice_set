@@ -74,75 +74,105 @@ module myip_v1_0
 // MODULE myip_v1_0 to implement your coprocessor
 
 
-// RAM parameters for assignment 1 (UPDATED FOR LAB 3)
-	localparam A_depth_bits = 9;  	// 8 elements (A is a 2x4 matrix)
-	localparam B_depth_bits = 3; 	// 4 elements (B is a 4x1 matrix)
-	localparam RES_depth_bits = 6;	// 2 elements (RES is a 2x1 matrix)
-	localparam width = 8;			// all 8-bit data
-	localparam M = 64; 
-	localparam N = 8;
+// RAM parameters for PROJECT
+    localparam A_depth_bits = 9;  	// 512 elements (A is a 64x8 matrix)
+    localparam B_depth_bits = 4; 	// 16 elements (B is a 8x2 matrix)
+    localparam RES_depth_bits = 7;	// 128 elements (RES is a 64x2 matrix)
+    localparam SIG_depth_bits = 8;	// 192 elements (SIG is a 64x3 matrix)
+    localparam C_depth_bits = 2;	// 3 elements (C is a 3x1 matrix)
+    localparam OUT_depth_bits = 6;	// 64 elements (OUT is a 64x1 matrix)
+    localparam width = 8;			// all 8-bit data
+    localparam M = 64; 
+    localparam N = 8;
+    localparam P = 2;
+    localparam Q = 3;
 	
 // wires (or regs) to connect to RAMs and matrix_multiply_0 for assignment 1
 // those which are assigned in an always block of myip_v1_0 shoud be changes to reg.
-	reg		A_write_en;								// myip_v1_0 -> A_RAM. To be assigned within myip_v1_0. Possibly reg.
-	reg		[A_depth_bits-1:0] A_write_address;		// myip_v1_0 -> A_RAM. To be assigned within myip_v1_0. Possibly reg. 
-	reg		[width-1:0] A_write_data_in;			// myip_v1_0 -> A_RAM. To be assigned within myip_v1_0. Possibly reg.
-	wire	A_read_en;								// matrix_multiply_0 -> A_RAM.
-	wire	[A_depth_bits-1:0] A_read_address;		// matrix_multiply_0 -> A_RAM.
-	wire	[width-1:0] A_read_data_out;			// A_RAM -> matrix_multiply_0.
+    reg		A_write_en;								// myip_v1_0 -> A_RAM. To be assigned within myip_v1_0. Possibly reg.
+    reg		[A_depth_bits-1:0] A_write_address;		// myip_v1_0 -> A_RAM. To be assigned within myip_v1_0. Possibly reg. 
+    reg		[width-1:0] A_write_data_in;			// myip_v1_0 -> A_RAM. To be assigned within myip_v1_0. Possibly reg.
+    wire	A_read_en;								// matrix_multiply_0 -> A_RAM.
+    wire	[A_depth_bits-1:0] A_read_address;		// matrix_multiply_0 -> A_RAM.
+    wire	[width-1:0] A_read_data_out;			// A_RAM -> matrix_multiply_0.
 
-	reg		B_write_en;								// myip_v1_0 -> B_RAM. To be assigned within myip_v1_0. Possibly reg.
-	reg		[B_depth_bits-1:0] B_write_address;		// myip_v1_0 -> B_RAM. To be assigned within myip_v1_0. Possibly reg.
-	reg		[width-1:0] B_write_data_in;			// myip_v1_0 -> B_RAM. To be assigned within myip_v1_0. Possibly reg.
-	wire	B_read_en;								// matrix_multiply_0 -> B_RAM.
-	wire	[B_depth_bits-1:0] B_read_address;		// matrix_multiply_0 -> B_RAM.
-	wire	[width-1:0] B_read_data_out;			// B_RAM -> matrix_multiply_0.
+    reg		B_write_en;								// myip_v1_0 -> B_RAM. To be assigned within myip_v1_0. Possibly reg.
+    reg		[B_depth_bits-1:0] B_write_address;		// myip_v1_0 -> B_RAM. To be assigned within myip_v1_0. Possibly reg.
+    reg		[width-1:0] B_write_data_in;			// myip_v1_0 -> B_RAM. To be assigned within myip_v1_0. Possibly reg.
+    wire	B_read_en;								// matrix_multiply_0 -> B_RAM.
+    wire	[B_depth_bits-1:0] B_read_address;		// matrix_multiply_0 -> B_RAM.
+    wire	[width-1:0] B_read_data_out;			// B_RAM -> matrix_multiply_0.
 
-	wire	RES_write_en;							// matrix_multiply_0 -> RES_RAM.
-	wire	[RES_depth_bits-1:0] RES_write_address;	// matrix_multiply_0 -> RES_RAM.
-	wire	[width-1:0] RES_write_data_in;			// matrix_multiply_0 -> RES_RAM.
-	reg		RES_read_en;  							// myip_v1_0 -> RES_RAM. To be assigned within myip_v1_0. Possibly reg.
-	reg		[RES_depth_bits-1:0] RES_read_address;	// myip_v1_0 -> RES_RAM. To be assigned within myip_v1_0. Possibly reg.
-	wire		[width-1:0] RES_read_data_out;			// RES_RAM -> myip_v1_0
+    wire	RES_write_en;							// matrix_multiply_0 -> RES_RAM.
+    wire	[RES_depth_bits-1:0] RES_write_address;	// matrix_multiply_0 -> RES_RAM.
+    wire	[width-1:0] RES_write_data_in;			// matrix_multiply_0 -> RES_RAM.
+    wire	RES_read_en;  							// myip_v1_0 -> RES_RAM. To be assigned within myip_v1_0. Possibly reg.
+    wire	[RES_depth_bits-1:0] RES_read_address;	// myip_v1_0 -> RES_RAM. To be assigned within myip_v1_0. Possibly reg.
+    wire	[width-1:0] RES_read_data_out;			// RES_RAM -> myip_v1_0
+
+    wire	SIG_write_en;								// myip_v1_0 -> A_RAM. To be assigned within myip_v1_0. Possibly reg.
+    wire	[SIG_depth_bits-1:0] SIG_write_address;		// myip_v1_0 -> A_RAM. To be assigned within myip_v1_0. Possibly reg. 
+    wire	[width-1:0] SIG_write_data_in;			// myip_v1_0 -> A_RAM. To be assigned within myip_v1_0. Possibly reg.
+    wire	SIG_read_en;								// matrix_multiply_0 -> A_RAM.
+    wire	[SIG_depth_bits-1:0] SIG_read_address;		// matrix_multiply_0 -> A_RAM.
+    wire	[width-1:0] SIG_read_data_out;			// A_RAM -> matrix_multiply_0.
+
+    reg		C_write_en;								// myip_v1_0 -> B_RAM. To be assigned within myip_v1_0. Possibly reg.
+    reg		[C_depth_bits-1:0] C_write_address;		// myip_v1_0 -> B_RAM. To be assigned within myip_v1_0. Possibly reg.
+    reg		[width-1:0] C_write_data_in;			// myip_v1_0 -> B_RAM. To be assigned within myip_v1_0. Possibly reg.
+    wire	C_read_en;								// matrix_multiply_0 -> B_RAM.
+    wire	[C_depth_bits-1:0] C_read_address;		// matrix_multiply_0 -> B_RAM.
+    wire	[width-1:0] C_read_data_out;			// B_RAM -> matrix_multiply_0.
+
+    wire	OUT_write_en;							// matrix_multiply_0 -> RES_RAM.
+    wire	[OUT_depth_bits-1:0] OUT_write_address;	// matrix_multiply_0 -> RES_RAM.
+    wire	[width-1:0] OUT_write_data_in;			// matrix_multiply_0 -> RES_RAM.
+    reg		OUT_read_en;  							// myip_v1_0 -> RES_RAM. To be assigned within myip_v1_0. Possibly reg.
+    reg		[OUT_depth_bits-1:0] OUT_read_address;	// myip_v1_0 -> RES_RAM. To be assigned within myip_v1_0. Possibly reg.
+    wire	[width-1:0] OUT_read_data_out;			// RES_RAM -> myip_v1_0	
 	
-	// wires (or regs) to connect to matrix_multiply for assignment 1
-	reg		Start; 								// myip_v1_0 -> matrix_multiply_0. To be assigned within myip_v1_0. Possibly reg.
-	wire	Done;								// matrix_multiply_0 -> myip_v1_0. 
+// wires (or regs) to connect to matrix_multiply for assignment 1
+    reg		Start_hidden; 								// myip_v1_0 -> matrix_multiply_0. To be assigned within myip_v1_0. Possibly reg.
+    wire	Done_hidden;								// matrix_multiply_0 -> myip_v1_0. 
+
+    reg     Start_Sigmoid; //Starts sigmoid function call
+    wire    Done_Sigmoid; //Ends sigmoid function call
+
+    reg     Start_Out; //Starts output layer call
+    wire    Done_Out; //Ends output layer call
 			
 				
-	// Total number of input data.
-	localparam NUMBER_OF_INPUT_WORDS  = 520; // 2**A_depth_bits + 2**B_depth_bits = 12 for assignment 1
+// Total number of input data.
+    localparam NUMBER_OF_A_WORDS = M * (N-1); // 448 data points for 64 x 7 matrix
+    localparam NUMBER_OF_B_WORDS = N * P; // 16 data points for 8 x 2 matrix
+    localparam NUMBER_OF_C_WORDS = Q; // 3 data points for 3 x 1 matrix
 
-	// Total number of output data
-	localparam NUMBER_OF_OUTPUT_WORDS = 64; // 2**RES_depth_bits = 2 for assignment 1
+    localparam NUMBER_OF_INPUT_WORDS = NUMBER_OF_A_WORDS + NUMBER_OF_B_WORDS + NUMBER_OF_C_WORDS; //467 in total
 
-	// Define the states of state machine (one hot encoding)
-	localparam Idle  		  = 5'b10000;
-	localparam Read_Inputs 	  = 5'b01000;
-	localparam Compute 		  = 5'b00100;
-	localparam Preload  	  = 5'b00010;
-	localparam Write_Outputs  = 5'b00001;
+// Total number of output data
+    localparam NUMBER_OF_OUTPUT_WORDS = M; // 64 outputs
 
-	reg [4:0] state;
+// Define the states of state machine (one hot encoding)
+    localparam Idle  		    = 8'b1000_0000;
+    localparam Read_Inputs 	    = 8'b0100_0000;
+    localparam Write_Col0 	    = 8'b0010_0000;
+    localparam Compute_hid 		= 8'b0001_0000;
+    localparam Compute_sig 		= 8'b0000_1000;
+    localparam Compute_out 		= 8'b0000_0100;
+    localparam Preload  	    = 8'b0000_0010;
+    localparam Write_Outputs    = 8'b0000_0001;
 
-	// Accumulator to hold sum of inputs read at any point in time
-	// reg [31:0] sum;
+    reg [7:0] state;
 
-	// reg [1:0] cycle_counter = 0; 
 
-	// Counters to store the number inputs read & outputs written.
+// Counters to store the number inputs read & outputs written.
 	// Could be done using the same counter if reads and writes are not overlapped (i.e., no dataflow optimization)
 	// Left as separate for ease of debugging
-	reg [$clog2(NUMBER_OF_INPUT_WORDS) - 1:0] read_counter;
-	reg [$clog2(NUMBER_OF_OUTPUT_WORDS) - 1:0] write_counter;
-	// reg [1:0] write_counter;
-	// reg [$clog2(NUMBER_OF_INPUT_WORDS) - 1:0] read_counter;
+    reg [$clog2(NUMBER_OF_INPUT_WORDS) - 1:0] read_counter; // [8:0]
+    reg [$clog2(NUMBER_OF_OUTPUT_WORDS) - 1:0] write_counter; // [5:0]
+    // add write_col0_counter (0-63)
+    reg [$clog2(M) - 1:0] write_col0_counter; // [5:0]
 
-
-
-   // CAUTION:
-   // The sequence in which data are read in and written out should be
-   // consistent with the sequence they are written and read in the driver's hw_acc.c file
 
 	always @(posedge ACLK) 
 	begin
@@ -159,232 +189,333 @@ module myip_v1_0
 		begin
 			case (state)
 
-				Idle:
-				begin
-					read_counter 	<= 0;
-					write_counter 	<= 0;
-					// sum          	<= 0;
-					S_AXIS_TREADY 	<= 0;
-					M_AXIS_TVALID 	<= 0;
-					M_AXIS_TLAST  	<= 0;
+                Idle:
+                begin
+                    read_counter 	<= 0;
+                    write_counter 	<= 0;
+                    write_col0_counter 	<= 0;
 
-					// Do not write to RAMs in Idle state
-					A_write_en <= 0;
-					B_write_en <= 0;
-					RES_read_en <= 0; 
-					Start <= 0; // No signal to MMul Module. Just initialization here. 
+                    S_AXIS_TREADY 	<= 0;
+                    M_AXIS_TVALID 	<= 0;
+                    M_AXIS_TLAST  	<= 0;
 
-					if (S_AXIS_TVALID == 1)
-					begin
-						state       	<= Read_Inputs;
-						S_AXIS_TREADY 	<= 1; 
-						// start receiving data once you go into Read_Inputs
-					end
-				end
+                    // Do not write to RAMs in Idle state
+                    A_write_en <= 0;
+                    B_write_en <= 0;
+                    C_write_en <= 0;
+                    OUT_read_en <= 0; 
+                    Start_hidden <= 0; // No signal to MMul Module. Just initialization here. 
+                    Start_Sigmoid <= 0;
+                    Start_Out <= 0;
 
-				Read_Inputs: // read the data input and write them into the RAMs
-				begin
-					S_AXIS_TREADY 	<= 1;
-					if (S_AXIS_TVALID == 1) 
-					begin
-						// Coprocessor function (adding the numbers together) happens here (partly)
-						// sum  	<=	sum + S_AXIS_TDATA;
-						// If we are expecting a variable number of words, we should make use of S_AXIS_TLAST.
-						// Since the number of words we are expecting is fixed, we simply count and receive 
-						// the expected number (NUMBER_OF_INPUT_WORDS) instead.
+                    if (S_AXIS_TVALID == 1)
+                    begin
+                        state       	<= Read_Inputs;
+                        S_AXIS_TREADY 	<= 1; 
+                        // start receiving data once you go into Read_Inputs
+                    end
+                end
 
-						// Write to RAMs (fixed size of data): A - 8, then B -  4
-						if (read_counter < 2**A_depth_bits)
-						begin
-							A_write_en 		<= 1;
-							A_write_address <= read_counter[A_depth_bits-1:0]; // Only use the A_depth bits
-							A_write_data_in <= S_AXIS_TDATA[7:0]; // get the 8 bits from the 32-bit input
-							B_write_en 		<= 0;
+                Read_Inputs: begin
+                    S_AXIS_TREADY <= 1;
 
-						end
-						else 
-						begin
-							A_write_en 		<= 0;
-							B_write_en 		<= 1;
-							B_write_address <= read_counter[B_depth_bits-1:0]; // Only use the B_depth bits
-							B_write_data_in <= S_AXIS_TDATA[7:0];
-						end 
+                    if (S_AXIS_TVALID) begin
+                        if (read_counter < NUMBER_OF_A_WORDS) begin  // Fill A[i][1~7]
+                            A_write_en      <= 1;
+                            A_write_address <= (read_counter / (N-1)) * N + (read_counter % (N-1) + 1);
+                            A_write_data_in <= S_AXIS_TDATA[7:0];
+                            B_write_en      <= 0;
+                            C_write_en      <= 0;
+                        end
+                        else if (read_counter < NUMBER_OF_A_WORDS + NUMBER_OF_B_WORDS) begin  // Fill B_RAM
+                            B_write_en      <= 1;
+                            B_write_address <= read_counter - NUMBER_OF_A_WORDS;
+                            B_write_data_in <= S_AXIS_TDATA[7:0];
+                            A_write_en      <= 0;
+                            C_write_en      <= 0;
+                        end
+                        else begin  // Fill C_RAM
+                            C_write_en      <= 1;
+                            C_write_address <= read_counter - (NUMBER_OF_A_WORDS + NUMBER_OF_B_WORDS);
+                            C_write_data_in <= S_AXIS_TDATA[7:0];
+                            A_write_en      <= 0;
+                            B_write_en      <= 0;
+                        end
 
-						// All data read. Go to Compute state
-						if (read_counter == NUMBER_OF_INPUT_WORDS-1)
-						begin
-							state      		<= Compute;
-							S_AXIS_TREADY 	<= 0;
-							Start		<= 1;
-						end
-						else
-						begin
-							read_counter 	<= read_counter + 1;
-						end
-					end
-				end
+                        read_counter <= read_counter + 1;
+                    end
+
+                    if (read_counter == NUMBER_OF_INPUT_WORDS - 1) begin
+                        S_AXIS_TREADY <= 0;
+                        state <= Write_Col0;
+                        write_col0_counter <= 0;
+                    end
+                end
             
-				Compute:
-				begin
-					// Stop the enabling of write to RAM B. Moved to Compute state so that the last data is written before computation. 
-					B_write_en <= 0;
+                Write_Col0: begin // Write the first column of A_RAM
+                    C_write_en <= 0;
+                    A_write_en      <= 1;
+                    A_write_address <= write_col0_counter * 8; // 0, 8, 16, ..., 63*8
+                    A_write_data_in <= 8'd255;
 
-					// Coprocessor function to be implemented (matrix multiply) should be here. Right now, nothing happens here.
-					// Send signal to start matrix multiply module
-					// Start		<= 1;
+                    if (write_col0_counter == 63) begin
+                        state <= Compute_hid;
+                        Start_hidden <= 1;
+                    end else begin
+                        write_col0_counter <= write_col0_counter + 1;
+                    end
+                end
 
-				
+                Compute_hid:
+                begin
+                    // Stop the enabling of write to RAM A. Moved to Compute state so that the last data is written before computation. 
+                    A_write_en <= 0;
+                    if(Done_hidden == 1) begin
+                        state		<= Compute_sig;
+                        Start_hidden 		<= 0;
+                        
+                        // 暂时先不加下面的(sigmoid中RES_read_en = Start_Sigmoid)
+                        // read data out from the RES RAM
+                        // RES_read_en 		<= 1;
+                        // RES_read_address 	<= 0;
+                    end 
+                end
 
-					if(Done == 1)
-					begin
-						state		<= Preload;
-						Start 		<= 0;
-						
-						// // read data out from the RES RAM
-						RES_read_en 		<= 1;
-						RES_read_address 	<= 0;
-						// write_counter <= write_counter + 1;
-				
-						
-					end 
-					// might be this causing the bug (leaving write_outputs before the data is sent out)
-					// Possible to save a cycle by asserting M_AXIS_TVALID and presenting M_AXIS_TDATA just before going into 
-					// Write_Outputs state. However, need to adjust write_counter limits accordingly
-					// Alternatively, M_AXIS_TVALID and M_AXIS_TDATA can be asserted combinationally to save a cycle.
-				end
+                Compute_sig:
+                begin
+                    Start_Sigmoid <= 1; // 之后应该可以移到上面,省1个周期
 
-				Preload:
-				begin
-					// read data out from the RES RAM
-					// RES_read_en 		<= 1;
-					RES_read_address 	<= RES_read_address + 1;
-					// write_counter 	<= write_counter + 1;
+                    if (Done_Sigmoid == 1) begin //once done =1, change state in next clock cycle
+                        state <= Compute_out;
+                        Start_Sigmoid <= 0;
+                    end
+                end
 
-					// 1 cycle for data to available
-					state <= Write_Outputs; 
+                Compute_out:
+                begin
+                    Start_Out <= 1;
 
-					// save the data 
-					// read_data_latched <= RES_read_data_out;
+                    if(Done_Out == 1) begin
+                        state		<= Preload;
+                        Start_Out 	<= 0;
+                        // read data out from the OUT RAM
+                        OUT_read_en 		<= 1;
+                        OUT_read_address 	<= 0;
+                    end 
+                end
 
+                Preload: // 1 cycle for data to available
+                begin
+                    OUT_read_address 	<= OUT_read_address + 1;
+                    state <= Write_Outputs; 
 
-				end
+                end
 
-			
-				Write_Outputs: // When you enter WO, data must be ready. 
-				begin
-					// RES_read_en 		<= 1;
-					// cycle_counter <= cycle_counter + 1;
-					// M_AXIS_TDATA	<= sum + write_counter;
-					// Coprocessor function (adding 1 to sum in each iteration = adding iteration count to sum) happens here (partly)
-					if (M_AXIS_TREADY == 1) 
-					begin
+                Write_Outputs: // When you enter WO, data must be ready. 
+                begin
+                    
+                    if (M_AXIS_TREADY == 1) 
+                    begin
 
-						// if (RES_read_address == NUMBER_OF_OUTPUT_WORDS - 1) // currently at enabling this final address 
-						if (M_AXIS_TLAST == 1) 
-						begin
-							// RES_read_en	<= 0;
-							// M_AXIS_TLAST, though optional in AXIS, is necessary in practice as AXI Stream FIFO and AXI DMA expects it.
-							state	<= Idle;
-							M_AXIS_TVALID		<= 0;
-							M_AXIS_TLAST	<= 0;
+                        if (M_AXIS_TLAST == 1) 
+                        begin
+                            state	<= Idle;
+                            M_AXIS_TVALID		<= 0;
+                            M_AXIS_TLAST	<= 0;
+                        end
+                        else begin
+                            M_AXIS_TVALID		<= 1;
+                            M_AXIS_TDATA 	<= {24'b0, OUT_read_data_out};	// OUT_read_data_out must be wire, or you will have this error: [Synth 8-685] variable 'RES_read_data_out' should not be used in output port connection	
+                            OUT_read_address 	<= OUT_read_address +1;
 
-						end
-						else
-						begin
-							M_AXIS_TVALID		<= 1;
-							M_AXIS_TDATA 	<= {24'b0, RES_read_data_out};	// RES_read_data_out must be wire, or you will have this error: [Synth 8-685] variable 'RES_read_data_out' should not be used in output port connection	
-							RES_read_address 	<= RES_read_address +1;
+                            // should only update write_counter when you are actually writing the data 
+                            write_counter <= write_counter + 1;
+                        end
 
-							// should only update write_counter when you are actually writing the data 
-							write_counter <= write_counter + 1;
-							
-						end
-						if (write_counter == NUMBER_OF_OUTPUT_WORDS - 1)
-						begin
-							RES_read_en <= 0; 
-							M_AXIS_TLAST	<= 1;
+                        if (write_counter == NUMBER_OF_OUTPUT_WORDS - 1) begin
+                            OUT_read_en <= 0; 
+                            M_AXIS_TLAST	<= 1;
 
-						end
-					end
-				end
+                        end
+                    end
+                end			
+
 			endcase
 		end
 	end
 	   
-	// Connection to sub-modules / components for assignment 1
-	
-	memory_RAM 
-	#(
-		.width(width), 
-		.depth_bits(A_depth_bits)
-	) A_RAM 
-	(
-		.clk(ACLK),
-		.write_en(A_write_en),
-		.write_address(A_write_address),
-		.write_data_in(A_write_data_in),
-		.read_en(A_read_en),    
-		.read_address(A_read_address),
-		.read_data_out(A_read_data_out)
-	);
-										
-										
-	memory_RAM 
-	#(
-		.width(width), 
-		.depth_bits(B_depth_bits)
-	) B_RAM 
-	(
-		.clk(ACLK),
-		.write_en(B_write_en),
-		.write_address(B_write_address),
-		.write_data_in(B_write_data_in),
-		.read_en(B_read_en),    
-		.read_address(B_read_address),
-		.read_data_out(B_read_data_out)
-	);
-										
-										
-	memory_RAM 
-	#(
-		.width(width), 
-		.depth_bits(RES_depth_bits)
-	) RES_RAM 
-	(
-		.clk(ACLK),
-		.write_en(RES_write_en),
-		.write_address(RES_write_address),
-		.write_data_in(RES_write_data_in),
-		.read_en(RES_read_en),    
-		.read_address(RES_read_address),
-		.read_data_out(RES_read_data_out)
-	);
-										
-	matrix_multiply 
-	#(
-		.width(width), 
-		.A_depth_bits(A_depth_bits), 
-		.B_depth_bits(B_depth_bits), 
-		.RES_depth_bits(RES_depth_bits),
-		.M(M),
-		.N(N)  
-	) matrix_multiply_0
-	(									
-		.clk(ACLK),
-		.Start(Start),
-		.Done(Done),
-		
-		.A_read_en(A_read_en),
-		.A_read_address(A_read_address),
-		.A_read_data_out(A_read_data_out),
-		
-		.B_read_en(B_read_en),
-		.B_read_address(B_read_address),
-		.B_read_data_out(B_read_data_out),
-		
-		.RES_write_en(RES_write_en),
-		.RES_write_address(RES_write_address),
-		.RES_write_data_in(RES_write_data_in)
-	);
+// Connection to sub-modules / components for assignment 1
+    memory_RAM 
+    #(
+        .width(width), 
+        .depth_bits(A_depth_bits)
+    ) A_RAM 
+    (
+        .clk(ACLK),
+        .write_en(A_write_en),
+        .write_address(A_write_address),
+        .write_data_in(A_write_data_in),
+        .read_en(A_read_en),    
+        .read_address(A_read_address),
+        .read_data_out(A_read_data_out)
+    );
+                                        
+                                        
+    memory_RAM 
+    #(
+        .width(width), 
+        .depth_bits(B_depth_bits)
+    ) B_RAM 
+    (
+        .clk(ACLK),
+        .write_en(B_write_en),
+        .write_address(B_write_address),
+        .write_data_in(B_write_data_in),
+        .read_en(B_read_en),    
+        .read_address(B_read_address),
+        .read_data_out(B_read_data_out)
+    );
+                                        
+                                        
+    memory_RAM 
+    #(
+        .width(width), 
+        .depth_bits(RES_depth_bits)
+    ) RES_RAM 
+    (
+        .clk(ACLK),
+        .write_en(RES_write_en),
+        .write_address(RES_write_address),
+        .write_data_in(RES_write_data_in),
+        .read_en(RES_read_en),    
+        .read_address(RES_read_address),
+        .read_data_out(RES_read_data_out)
+    );
+
+
+    memory_RAM 
+    #(
+        .width(width), 
+        .depth_bits(SIG_depth_bits)
+    ) SIG_RAM 
+    (
+        .clk(ACLK),
+        .write_en(SIG_write_en),
+        .write_address(SIG_write_address),
+        .write_data_in(SIG_write_data_in),
+        .read_en(SIG_read_en),    
+        .read_address(SIG_read_address),
+        .read_data_out(SIG_read_data_out)
+    );
+
+
+    memory_RAM 
+    #(
+        .width(width), 
+        .depth_bits(C_depth_bits)
+    ) C_RAM 
+    (
+        .clk(ACLK),
+        .write_en(C_write_en),
+        .write_address(C_write_address),
+        .write_data_in(C_write_data_in),
+        .read_en(C_read_en),    
+        .read_address(C_read_address),
+        .read_data_out(C_read_data_out)
+    );
+
+
+    memory_RAM 
+    #(
+        .width(width), 
+        .depth_bits(OUT_depth_bits)
+    ) OUT_RAM 
+    (
+        .clk(ACLK),
+        .write_en(OUT_write_en),
+        .write_address(OUT_write_address),
+        .write_data_in(OUT_write_data_in),
+        .read_en(OUT_read_en),    
+        .read_address(OUT_read_address),
+        .read_data_out(OUT_read_data_out)
+    );
+
+
+    mm_new 
+    #(
+        .width(width), 
+        .A_depth_bits(A_depth_bits), 
+        .B_depth_bits(B_depth_bits), 
+        .RES_depth_bits(RES_depth_bits),
+        .M(M),
+        .N(N), 
+        .P(P)
+    ) mm_new_0
+    (									
+        .clk(ACLK),
+        .Start(Start_hidden),
+        .Done(Done_hidden),
+        
+        .A_read_en(A_read_en),
+        .A_read_address(A_read_address),
+        .A_read_data_out(A_read_data_out),
+        
+        .B_read_en(B_read_en),
+        .B_read_address(B_read_address),
+        .B_read_data_out(B_read_data_out),
+        
+        .RES_write_en(RES_write_en),
+        .RES_write_address(RES_write_address),
+        .RES_write_data_in(RES_write_data_in)
+    );
+
+
+    Sigmoid
+    #(
+        .width(width),	
+        .RES_depth_bits(RES_depth_bits),
+        .SIG_depth_bits(SIG_depth_bits)
+    ) Sigmoid_0
+    (
+        .clk(ACLK), 
+        .Start_Sigmoid(Start_Sigmoid),
+        .End_Sigmoid(Done_Sigmoid), 
+
+        .RES_read_en(RES_read_en), 
+        .RES_read_address(RES_read_address), 
+        .RES_read_data_out(RES_read_data_out),
+
+        .SIG_write_en(SIG_write_en), 	
+        .SIG_write_address(SIG_write_address), 
+        .SIG_write_data_in(SIG_write_data_in)
+    );
+
+
+    matrix_multiply 
+    #(
+        .width(width), 
+        .A_depth_bits(SIG_depth_bits), 
+        .B_depth_bits(C_depth_bits), 
+        .RES_depth_bits(OUT_depth_bits),
+        .M(M),
+        .N(Q)  
+    ) matrix_multiply_0
+    (									
+        .clk(ACLK),
+        .Start(Start_Out),
+        .Done(Done_Out),
+        
+        .A_read_en(SIG_read_en),
+        .A_read_address(SIG_read_address),
+        .A_read_data_out(SIG_read_data_out),
+        
+        .B_read_en(C_read_en),
+        .B_read_address(C_read_address),
+        .B_read_data_out(C_read_data_out),
+        
+        .RES_write_en(OUT_write_en),
+        .RES_write_address(OUT_write_address),
+        .RES_write_data_in(OUT_write_data_in)
+    );
 
 endmodule

@@ -70,12 +70,20 @@ module matrix_multiply
 	// always @(posedge clk)
 		// state <= n_state;
 		
+	function [width-1:0] lut;
+    input [19:0] in;
+    begin
+        lut = (in < 33000)   ? 8'd0  : 8'd1; // for precision
+    end
+    endfunction
+		
 	always @(posedge clk) begin
 		case (state)
 			IDLE: begin 
 				if (Start) begin
 					// n_state <= LOAD;
 					// state <= LOAD;
+					RES_write_en <= 0;
 					cycle_load <= cycle_load + 1;
 					if (cycle_load == 0) begin // First cycle: idle
 						state <= IDLE;
@@ -159,7 +167,8 @@ module matrix_multiply
 				RES_write_en <= 1;
 				RES_write_address <= i;
 				// RES_write_data_in <= sum[width-1:0]; // take the upper 8 bits (Scaling down by 256)
-				RES_write_data_in <= sum[15:width]; // take the upper 8 bits (Scaling down by 256)
+				// RES_write_data_in <= sum[15:width]; // take the upper 8 bits (Scaling down by 256)
+				RES_write_data_in <= lut(sum);
 				if (i < M-1) begin
 					// n_state <= LOAD;
 					state <= IDLE;
@@ -174,7 +183,7 @@ module matrix_multiply
 					// state <= DONE;
 					state <= IDLE;
 					Done <= 1; // ET TO DO***: There is a delay of 1 cycle before Start changes to 0. So assert Done before changing states so that when it moves to IDLE, Start=0. Is there a better way?
-					RES_write_en <= 0; // In order to start reading in the next cycle, write_en has to be low
+					// RES_write_en <= 0; // In order to start reading in the next cycle, write_en has to be low
 				end
 			end
 			// DONE: begin // ET TO CHECK***: Can remove this state, and just go to IDLE in the else block from COMPUTE?

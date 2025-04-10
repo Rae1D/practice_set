@@ -1,4 +1,3 @@
-
 module mm_new
 	#(	parameter width = 8, 			// width is the number of bits per location
 		parameter A_depth_bits = 9, 	// depth is the number of locations (2^number of address bits)
@@ -110,7 +109,7 @@ module mm_new
 				end else begin
 					state <= IDLE;
 					Done <= 1;
-					RES_write_en <= 0;
+					// RES_write_en <= 0;
 				end
 			end
 
