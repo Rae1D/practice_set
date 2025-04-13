@@ -13,4 +13,18 @@ interface our_interface(input logic clk);
 
     logic [15:0] output_3;
 
+    // 驱动端modport（driver用）
+    modport drv (
+        output input_1,
+        output input_2,
+        output output_3
+    );
+
+    // 接收端modport（DUT用）
+    modport dut (
+        output input_1,
+        output input_2,
+        output output_3
+    );
+
 endinterface
