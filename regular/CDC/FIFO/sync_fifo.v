@@ -22,7 +22,7 @@ module sync_fifo #(
     // 3. 定义寄存器：FIFO、读写指针和当前存储数量（reg）
     reg [DATA_WIDTH-1:0] mem_ram [0:DATA_DEPTH-1];
     reg [clogb2(DATA_DEPTH-1)-1:0] r_wr_ptr;
-    reg [clogb2(DATA_DEPTH-1)-1:0] r_rd_ptr;    // 读写指针（地址）：0-127
+    reg [clogb2(DATA_DEPTH-1)-1:0] r_rd_ptr;    // 读写指针（地址）：0-127, [6:0]
     reg [clogb2(DATA_DEPTH-1):0] r_fifo_number; // 当前存储数量：0-128
 
     // 4. 读写指针（写非满or读非空 -> 加1）
