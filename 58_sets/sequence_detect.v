@@ -64,7 +64,7 @@ module sequence_detect(
     output reg match
     );
  
-    reg [7:0] a_tem;
+    reg [7:0] a_tem;    // 定义移位寄存器
      
     always @(posedge clk or negedge rst_n)
         if (!rst_n)

@@ -3,7 +3,7 @@
 module sync_fifo #(
     // 1. 定义FIFO的大小（width和depth）
     parameter DATA_WIDTH = 8,
-    parameter DATA_DEPTH = 128  // 7b'111_1111
+    parameter DATA_DEPTH = 128  // 127：7b'111_1111
 )
 (
     // 2. 定义FIFO的接口
