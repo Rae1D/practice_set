@@ -6,6 +6,40 @@ Author:             Ding Dang
 Date created:       23 Mar 2025
 ===================================================*/
 
+/*===================================================
+    monitor的主要功能：
+    - 监视接口信号，捕获接口上活动的事务
+    - 将PIN级信号转化为事务级的数据包
+    - 将这些数据包发送到analysis组件（reference model、scoreboard等）进行分析，产生报告
+    monitor通过TLM-port与其他组件相连
+===================================================*/
+
+class my_monitor extends uvm_monitor;
+
+    `uvm_component_utils(my_monitor)
+
+    function new(string name ="", uvm_component parent);
+        super.new(name, parent);
+    endfunction
+
+    virtual task reset_phase(uvm_phase phase);
+        #150;
+        `uvm_info("MON_RESET_PHASE", "Now Monitor reset phase running !", UVM_MEDIUM)
+    endtask
+
+    // monitor的功能主要在run_phase中进行
+    virtual task run_phase(uvm_phase phase);
+        forever begin
+            `uvm_info("MON_RUN_PHASE", "Monitor run!", UVM_MEDIUM)
+            #100;
+        end
+    endtask
+endclass 
+
+
+
+
+// ori
 class our_monitor extends uvm_monitor;
 
     `uvm_component_utils(our_monitor)
