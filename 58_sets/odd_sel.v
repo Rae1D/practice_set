@@ -15,3 +15,20 @@ output check
 
 //*************code***********//
 endmodule
+
+
+// 9.3
+module odd_sel(
+input [31:0] bus,
+input sel,
+output check
+);
+
+    wire w_num_1;
+    assign w_num_1 = ^bus; // 输出为奇数个1则为1
+
+    assign check = sel ? w_num_1 : ~w_num_1;
+
+
+
+endmodule

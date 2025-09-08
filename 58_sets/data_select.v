@@ -15,7 +15,7 @@ module data_select(
             c <= 9'b0;
         else begin
             case (select)
-                2'b00: c <= {a[7], a};
+                2'b00: c <= {a[7], a};  // 位扩展
                 2'b01: c <= {b[7], b};
                 2'b10: c <= {a[7], a} + {b[7], b};
                 2'b11: c <= {a[7], a} - {b[7], b};

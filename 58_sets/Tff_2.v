@@ -29,3 +29,33 @@ output reg q
 
 //*************code***********//
 endmodule
+
+
+// 9.3
+module Tff_2 (
+input wire data, clk, rst,
+output reg q  
+);
+
+    reg r_q;
+
+    always @(posedge clk or negedge rst) begin
+        if (!rst)
+            r_q <= 1'b0;
+        else if (data)
+            r_q <= ~r_q;
+        else
+            r_q <= r_q;
+    end
+
+    always @(posedge clk or negedge rst) begin
+    if(!rst)
+        q <= 1'b0;
+    else if (r_q)
+        q <= ~q;
+    else
+        q <= q;
+    end
+
+
+endmodule

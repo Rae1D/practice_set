@@ -38,7 +38,8 @@ output reg [10:0]out
                     input_grant <= 1'b0;
                 end
                 2'b10: begin    // 输入*7
-                    out <= {r_d, 2'b0} + {r_d, 1'b0} + r_d;
+                    // out <= {r_d, 2'b0} + {r_d, 1'b0} + r_d;
+                    out <= (r_d << 3) - r_d; // 这样也行，但注意移位符加括号（优先级低于加减）
                     input_grant <= 1'b0;
                 end
                 2'b11: begin    // 输入*8

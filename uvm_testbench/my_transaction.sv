@@ -24,7 +24,7 @@ class my_transaction extends uvm_sequence_item;
     // object宏
     `uvm_object_utils_begin(my_transaction)
         `uvm_field_int(sa, UVM_ALL_ON)
-        `uvm_field_int(sa, UVM_ALL_ON)
+        `uvm_field_int(da, UVM_ALL_ON)
         `uvm_field_queue_int(payload, UVM_ALL_ON)
     `uvm_object_utils_end
 

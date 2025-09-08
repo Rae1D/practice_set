@@ -27,7 +27,7 @@ class my_test extends uvm_test;
         super.build_phase(phase);
         m_env = my_env::type_id::create("m_env", this);
         
-        // 使用configuration机制为sequencer指定一个需要启动的sequence
+        // 使用configuration机制为sequencer指定一个需要启动的sequence（面包厂、车厂...）
         // uvm_config_db是UVM内建的带参数的类，set是其静态函数（为指定目标设置资源）
         // 参数：调用set的位置，被配置变量的相对路径（*为通配符），目标变量的标识符，要启动的sequence的类型
         uvm_config_db # (uvm_object_wrapper)::set(this, "*.m_seqr.run_phase", "default_sequence", my_sequence::get_type());

@@ -29,6 +29,7 @@ class my_sequence extends uvm_sequence # (my_transaction);
     // sequence中最重要的部分，控制和产生transaction序列
     // 需要验证工程师自己完成
     virtual task body();
+        // 这里的staring phase指test.sv中的config.db中定义的run phase
         if(starting_phase != null)
             starting_phase.raise_objection(this);
 
