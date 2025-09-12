@@ -5,7 +5,7 @@ module mm_new
 		parameter RES_depth_bits = 9,
         parameter M = 64,
 		parameter N = 8,
-        parameter P = 4
+        parameter P = 2
 	) 
 	(
 		input clk,										
