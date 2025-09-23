@@ -1,0 +1,11 @@
+Zynq MP First Stage Boot Loader 
+Release 2023.2   Apr  8 2025  -  13:11:51
+PMU-FW is not running, certain applications may not be supported.
+Hello World
+Starting the tests ...
+ Transmitting Data for test case 0 ... 
+word_cnt: 467!
+Average Time taken for MLP in SW: 5920
+Average Time taken for MLP in HW HLS_1: 4000
+Average Time taken for MLP in HW HLS_2_merge: 4001
+SUCCESS
