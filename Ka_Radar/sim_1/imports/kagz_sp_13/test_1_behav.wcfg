@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="test_2_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="test_2" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="16237916666667fs"></ZoomStartTime>
+      <ZoomEndTime time="67587916666668fs"></ZoomEndTime>
+      <Cursor1Time time="35387916667000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="222"></NameColumnWidth>
+      <ValueColumnWidth column_width="64"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="9" />
+   <wvobject fp_name="/test_2/clk_200m" type="logic">
+      <obj_property name="ElementShortName">clk_200m</obj_property>
+      <obj_property name="ObjectShortName">clk_200m</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_2/locked" type="logic">
+      <obj_property name="ElementShortName">locked</obj_property>
+      <obj_property name="ObjectShortName">locked</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_2/gpio_3" type="logic">
+      <obj_property name="ElementShortName">gpio_3</obj_property>
+      <obj_property name="ObjectShortName">gpio_3</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_2/gpio_2" type="logic">
+      <obj_property name="ElementShortName">gpio_2</obj_property>
+      <obj_property name="ObjectShortName">gpio_2</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_2/FPGA_nRESET" type="logic">
+      <obj_property name="ElementShortName">FPGA_nRESET</obj_property>
+      <obj_property name="ObjectShortName">FPGA_nRESET</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_2/init_en" type="logic">
+      <obj_property name="ElementShortName">init_en</obj_property>
+      <obj_property name="ObjectShortName">init_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_2/FPGA_EN" type="logic">
+      <obj_property name="ElementShortName">FPGA_EN</obj_property>
+      <obj_property name="ObjectShortName">FPGA_EN</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_2/cnt_1ms" type="array">
+      <obj_property name="ElementShortName">cnt_1ms[19:0]</obj_property>
+      <obj_property name="ObjectShortName">cnt_1ms[19:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_2/cnt_6200ms" type="array">
+      <obj_property name="ElementShortName">cnt_6200ms[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cnt_6200ms[15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>
